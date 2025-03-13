@@ -50,7 +50,7 @@ class Database:
         self.conn.commit()  # Confirma a inserção dos dados
 
     def removerfuncionario(self,idfuncionario):
-        self.cursor.execute("DELETE FROM funcionario WHERE idfuncionario=%s",(idfuncionario))
+        self.cursor.execute("DELETE FROM funcionario WHERE idfuncionario=%s",(idfuncionario,))
         self.conn.commit()
 
     def alterarfuncionario(self, idfuncionario, cpf, nome, telefone, email, dataDeContratacao, cargo, salario, endereco):

@@ -1,11 +1,12 @@
 from tkinter import *  # Importa todos os módulos do Tkinter
 from tkinter import messagebox  # Importa o módulo de caixas de mensagens do Tkinter 
 from tkinter import ttk  # Importa o módulo ttk do Tkinter
-#from DataBase import Database  # Importa a classe Database do módulo DataBase
+from DataBase import Database # Importa a classe Database do módulo DataBase
 import tkinter as tk  # Importa o módulo tkinter como tk
 
 class TelaGeral:
     def __init__(self, root):
+        
         self.root = root  # Referência da janela principal
         
         # Título da janela
@@ -50,7 +51,7 @@ class TelaGeral:
         self.enderecoEntry.place(x=150, y=350)
 
         # Botões
-        excluirButton = ttk.Button(self.root, text="EXCLUIR", width=15, command=self.combinarfuncoes)
+        excluirButton = ttk.Button(self.root, text="EXCLUIR", width=15, command=self.excluirFuncionario)
         excluirButton.place(x=50, y=400)
 
         alterarButton = ttk.Button(self.root, text="ALTERAR", width=15, command=self.alterarfuncionario)
@@ -68,43 +69,6 @@ class TelaGeral:
                 db = Database()
                 db.removerfuncionario(idfuncionario)
                 messagebox.showinfo("Sucesso","funcionario excluido com sucesso com sucesso!") #Exibe a mensagem de sucesso
-    def buscar_funcionario(self):
-        id_funcionario = self.id_entry.get()
-
-        if not id_funcionario:
-            messagebox.showerror("Erro", "Digite um ID para buscar")
-            return
-
-        funcionario = self.db.buscar_funcionario(id_funcionario)
-
-        if funcionario:
-
-            self.cpf_funcionarioEntry.delete(0, tk.END)
-            self.cpf_funcionarioEntry.insert(0, funcionario[1])  # CPF
-            
-            self.nome_funcionarioEntry.delete(0, tk.END)
-            self.nome_funcionarioEntry.insert(0, funcionario[2])  # Nome
-
-            self.telefoneEntry.delete(0, tk.END)
-            self.telefoneEntry.insert(0, funcionario[3])
-
-            self.emailEntry.delete(0, tk.END)
-            self.emailEntry.insert(0, funcionario[4])
-
-            self.data_da_contratacaoEntry.delete(0, tk.END)
-            self.data_da_contratacaoEntry.insert(0, funcionario[5])
-
-            self.cargoEntry.delete(0, tk.END)
-            self.cargoEntry.insert(0, funcionario[6])  # Cargo
-
-            self.salarioEntry.delete(0, tk.END)
-            self.salarioEntry.insert(0, funcionario[7])  # Salário
-
-            self.enderecoEntry.delete(0, tk.END)
-            self.enderecoEntry.insert(0, funcionario[8])  # Salário
-
-        else:
-            messagebox.showerror("Erro", "Funcionário não encontrado")
 
 
     def alterarfuncionario(self):
@@ -124,27 +88,30 @@ class TelaGeral:
             else:
                 db = Database()  # Cria uma instância do banco de dados
                 db.alterarfuncionario(idfuncionario, cpf, nome, telefone, email, dataDeContratacao, cargo, salario, endereco)  # Registra os dados
-                messagebox.showinfo("Sucesso", "Funcionário(a) cadastrado(a) com sucesso!")
+                messagebox.showinfo("Sucesso", "Funcionário(a) alterado(a) com sucesso!")
         
 
     
 
     def buscarfuncionario(self):
-        ID_funcionarioEntry = self.ID_funcionarioEntry.get()
-        self.cursor.execute("SELECT * FROM funcionario WHERE ID_funcionarioEntry=%s", (ID_funcionarioEntry,))
-        usuario = self.cursor.fetchone()
-        if usuario:
-            self.cpf_funcionarioEntry.insert(0, usuario[1])
-            self.nome_funcionarioEntry.insert(0, usuario[2])
-            self.telefoneEntry.insert(0, usuario[3])
-            self.emailEntry.insert(0, usuario[4])
-            self.data_da_contratacaoEntry.insert(0, usuario[5])
-            self.cargoEntry.insert(0, usuario[6])
-            self.salarioEntry.insert(0, usuario[7])
-            self.enderecoEntry.insert(0, usuario[8])
+        idfuncionario = self.ID_funcionarioEntry.get()
+        if idfuncionario == "":
+            messagebox.showerror(title="Erro", message="PREENCHA O CAMPO DE ID")
         else:
-            self.lblmsg["text"] = "Funcionario não encontrado"
-            self.limparCampos()
+            db = Database()  # Crie uma instância do banco de dados
+            usuario = db.buscar_funcionario(idfuncionario)  # Supondo que exista um método para buscar por id
+            if usuario:
+                self.cpf_funcionarioEntry.insert(0, usuario[1])
+                self.nome_funcionarioEntry.insert(0, usuario[2])
+                self.telefoneEntry.insert(0, usuario[3])
+                self.emailEntry.insert(0, usuario[4])
+                self.data_da_contratacaoEntry.insert(0, usuario[5])
+                self.cargoEntry.insert(0, usuario[6])
+                self.salarioEntry.insert(0, usuario[7])
+                self.enderecoEntry.insert(0, usuario[8])
+            else:
+                messagebox.showerror("Erro", "Funcionário não encontrado")
+                self.LimparCampos()
     
     def LimparCampos(self):
             self.cpf_funcionarioEntry.delete(0, END)
@@ -156,9 +123,7 @@ class TelaGeral:
             self.salarioEntry.delete(0, END)
             self.enderecoEntry.delete(0, END)
     
-    def combinarfuncoes(self):
-         self.excluirFuncionario()
-         self.LimparCampos()
+    
 
 
 if __name__ == "__main__":

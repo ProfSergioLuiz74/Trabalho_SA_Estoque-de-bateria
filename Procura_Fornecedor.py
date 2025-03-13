@@ -3,7 +3,7 @@ from tkinter import * #IMporta todos os modulos do tkinter
 from tkinter import messagebox #importa o modulo de caixas de de mensagens do tkinter 
 from tkinter import ttk #Importa a classe Database do modulo DataBase
 from DataBase import Database
-import tkinter as tk
+
 class Procura_Fornecedor():
     def __init__(self,root):
     
@@ -76,13 +76,16 @@ class Procura_Fornecedor():
                 db = Database()
                 db.buscarFornecedor(idfornecedor)
                 usuario=buscaFornecedor()
-                FornecedorEntry.insert(0, usuario[1])
-                CpfFornecedorEntry.insert(0, usuario[2])
-                TelefoneFornecedorEntry.insert(0, usuario[3])
-                EmailFornecedorEntry.insert(0, usuario[4])
-                EnderecoFornecedorEntry.insert(0, usuario[5])
-                ProdutoFornecedorEntry.insert(0, usuario[6])
-                QuantidadeFornecedorEntry.insert(0, usuario[7])
+                if usuario:
+                    FornecedorEntry.insert(0, usuario[1])
+                    CpfFornecedorEntry.insert(0, usuario[2])
+                    TelefoneFornecedorEntry.insert(0, usuario[3])
+                    EmailFornecedorEntry.insert(0, usuario[4])
+                    EnderecoFornecedorEntry.insert(0, usuario[5])
+                    ProdutoFornecedorEntry.insert(0, usuario[6])
+                    QuantidadeFornecedorEntry.insert(0, usuario[7])
+                else:
+                    messagebox.showerror(title="Erro de Busca", message="FORNECEDOR NÂO EXISTE") #Exibe a mensagem de erro
 
 
         pesquisaButton =  ttk.Button(text="BUSCAR",width=15,command=buscaFornecedor) #Cria o botão de alterar

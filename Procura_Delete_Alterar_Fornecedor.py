@@ -75,15 +75,16 @@ class Procura_DeleteEAlterarFornecedor():
                 db.alterarFornecedor(idfornecedor,fornecedores,cpf,telefone,email,endereco,produto,quantidade) #Chama o metodo para registrar no banco de dados 
                 messagebox.showinfo("Sucesso","Fornecedor atualizado com sucesso!") #Exibe a mensagem de sucesso
 
-        def buscaFornecedor():
+        def buscaFornecedor(): #Busca fornecedor de acordo com o id
             idfornecedor=idEntry.get()
-            if idfornecedor =="":
+            if idfornecedor =="": #Verifica se a caixa de texto do id está vazia
                 messagebox.showerror(title="Erro de Busca", message="PREENCHA O CAMPO DE ID") #Exibe a mensagem de erro
             else:
-                db = Database()
+                db = Database() #Cria uma instancia da classe Database
                 db.buscarFornecedor(idfornecedor)
                 usuario=buscaFornecedor()
                 if usuario:
+                    #Coloca as informações no campo de dados
                     FornecedorEntry.insert(0, usuario[1])
                     CpfFornecedorEntry.insert(0, usuario[2])
                     TelefoneFornecedorEntry.insert(0, usuario[3])
@@ -97,10 +98,10 @@ class Procura_DeleteEAlterarFornecedor():
                 
         def excluirFornecedor():
             idfornecedor=idEntry.get()
-            if idfornecedor =="":
+            if idfornecedor =="": #Verifica se a caixa de texto do id está vazia
                 messagebox.showerror(title="Erro de Busca", message="PREENCHA O CAMPO DE ID") #Exibe a mensagem de erro
             else:
-                db = Database()
+                db = Database() #Cria uma instancia da classe Database
                 db.removerFornecedor(idfornecedor)
                 messagebox.showinfo("Sucesso","Fornecedor atualizado com sucesso!") #Exibe a mensagem de sucesso
 
@@ -117,13 +118,13 @@ class Procura_DeleteEAlterarFornecedor():
         alterarButton =  ttk.Button(text="ALTERAR",width=15,command=alterarFornecedor) #Cria o botão de alterar
         alterarButton.place(x=470,y=80)
 
-        pesquisaButton =  ttk.Button(text="BUSCAR",width=15,command=buscaFornecedor) #Cria o botão de alterar
+        pesquisaButton =  ttk.Button(text="BUSCAR",width=15,command=buscaFornecedor) #Cria o botão de buscar
         pesquisaButton.place(x=370,y=80)
 
-        excluirButton =  ttk.Button(text="EXCLUIR",width=15,command=excluirFornecedor) #Cria o botão de alterar
+        excluirButton =  ttk.Button(text="EXCLUIR",width=15,command=excluirFornecedor) #Cria o botão de excluir
         excluirButton.place(x=570,y=80)
 
-        limparButton =  ttk.Button(text="LIMPAR",width=15,command=LimparCampos) #Cria o botão de alterar
+        limparButton =  ttk.Button(text="LIMPAR",width=15,command=LimparCampos) #Cria o botão de limpar
         limparButton.place(x=670,y=80)
 
 if __name__=="__main__":
