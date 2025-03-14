@@ -60,7 +60,7 @@ class Database:
         self.conn.close()
 
     def buscar_funcionario(self, id_funcionario):
-        query = "SELECT * FROM funcionario WHERE id = %s"
+        query = "SELECT * FROM funcionario WHERE idfuncionario = %s"
         self.cursor.execute(query, (id_funcionario,))
         return self.cursor.fetchone() 
     

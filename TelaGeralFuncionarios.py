@@ -89,9 +89,7 @@ class TelaGeral:
                 db = Database()  # Cria uma instância do banco de dados
                 db.alterarfuncionario(idfuncionario, cpf, nome, telefone, email, dataDeContratacao, cargo, salario, endereco)  # Registra os dados
                 messagebox.showinfo("Sucesso", "Funcionário(a) alterado(a) com sucesso!")
-        
-
-    
+       
 
     def buscarfuncionario(self):
         idfuncionario = self.ID_funcionarioEntry.get()
